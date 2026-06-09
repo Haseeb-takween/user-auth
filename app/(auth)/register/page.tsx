@@ -9,18 +9,23 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, confirmPassword }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -147,6 +152,26 @@ export default function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Min. 6 characters"
+            className="w-full rounded-lg border border-white/[0.07] bg-[#111] px-3.5 py-2.5 text-sm text-[#e2e2e2] placeholder-[#2a2a2a] outline-none transition-all duration-200 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10"
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor="confirmPassword"
+            className="text-[11px] font-medium uppercase tracking-widest text-[#525252]"
+          >
+            Confirm password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            required
+            minLength={6}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Re-enter your password"
             className="w-full rounded-lg border border-white/[0.07] bg-[#111] px-3.5 py-2.5 text-sm text-[#e2e2e2] placeholder-[#2a2a2a] outline-none transition-all duration-200 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10"
           />
         </div>
