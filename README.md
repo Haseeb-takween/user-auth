@@ -134,8 +134,6 @@ proxy.ts             # Route protection middleware
 - **No email verification** — anyone can register with any email; accounts are active immediately
 - **No password reset** — users cannot recover a forgotten password
 - **No rate limiting** — login and register endpoints have no brute-force protection
-- **Route guard uses `jwt.decode`, not `jwt.verify`** — `proxy.ts` checks the token payload without validating the signature; pages verify properly, but middleware alone is not fully secure
-- **API routes are not protected by middleware** — `/api/*` is excluded from `proxy.ts`; auth is only enforced on page routes
 - **Admin panel is read-only** — admins can view users but cannot edit, delete, or change roles
 - **Admin dashboard shows partial password hashes** — for demo/debug only; not suitable for production
 - **No automated tests** — all testing is manual through the browser
